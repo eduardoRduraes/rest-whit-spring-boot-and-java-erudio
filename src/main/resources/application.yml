@@ -1,17 +1,14 @@
-#spring.datasource.url=jdbc:mysql://localhost:3306/cursospring?createDatabaseIfNotExist=true&serverTimezone=UTC
-#spring.datasource.username=retaguarda
-#spring.datasource.password=retaguarda
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/demo
+    username: root
+    password: root
+  jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: false
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/demo
-
-spring.datasource.username=root
-spring.datasource.password=root
-
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-  
-  #spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-  #spring.jpa.database-platform=org.hibernate.dialect.MySQ5LDialect
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
