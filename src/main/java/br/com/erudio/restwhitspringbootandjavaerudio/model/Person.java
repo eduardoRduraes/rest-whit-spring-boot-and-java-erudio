@@ -32,25 +32,17 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
-    public Person(Person person) {
-        this.setId(person.getId());
-        this.setFirstName(person.getFirstName());
-        this.setLastName(person.getLastName());
-        this.setAddress(person.getAddress());
-        this.setGender(person.getGender());
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return id == person.id;
+        return id.equals(person.id) && firstName.equals(person.firstName) && lastName.equals(person.lastName) && address.equals(person.address) && gender.equals(person.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, firstName, lastName, address, gender);
     }
 
     public Long getId() {
