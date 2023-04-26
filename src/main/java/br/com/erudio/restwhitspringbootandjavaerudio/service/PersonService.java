@@ -1,8 +1,10 @@
 package br.com.erudio.restwhitspringbootandjavaerudio.service;
 
 import br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v1.PersonVO;
+import br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v2.PersonVOV2;
 import br.com.erudio.restwhitspringbootandjavaerudio.exception.ResourceNotFoundException;
 import br.com.erudio.restwhitspringbootandjavaerudio.mapper.DozerMapper;
+import br.com.erudio.restwhitspringbootandjavaerudio.mapper.custom.PersonMapper;
 import br.com.erudio.restwhitspringbootandjavaerudio.model.Person;
 import br.com.erudio.restwhitspringbootandjavaerudio.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,21 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private PersonMapper personMapper;
+
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
     public PersonVO create(PersonVO person) {
         logger.info("create one person!");
         var entity = DozerMapper.parseObject(person, Person.class);
         return DozerMapper.parseObject(personRepository.save(entity), PersonVO.class);
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 person) {
+        logger.info("create one person VOV2!");
+        var entity = personMapper.converteVoToEntity(person);
+        return personMapper.converteEntityToVo(personRepository.save(entity));
     }
 
     public PersonVO findById(Long id) {
