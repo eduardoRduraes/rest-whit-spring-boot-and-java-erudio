@@ -1,38 +1,33 @@
-package br.com.erudio.restwhitspringbootandjavaerudio.model;
-
-import jakarta.persistence.*;
+package br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
-@Table(name = "persons")
-public class Person implements Serializable {
+public class PersonVO implements Serializable {
     private static final long serialVersionID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    @Column(name = "first_name", nullable = false, length = 80)
+
     private String firstName;
-    @Column(name = "last_name", nullable = false, length = 80)
+
     private String lastName;
-    @Column(nullable = false, length = 200)
+
     private String address;
-    @Column(nullable = false, length = 10)
+
     private String gender;
 
-    public Person() {
+    public PersonVO() {
 
     }
 
-    public Person(String firstName, String lastName, String address, String gender) {
+    public PersonVO(String firstName, String lastName, String address, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.gender = gender;
     }
 
-    public Person(Person person) {
+    public PersonVO(PersonVO person) {
         this.setId(person.getId());
         this.setFirstName(person.getFirstName());
         this.setLastName(person.getLastName());
@@ -44,7 +39,7 @@ public class Person implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
+        PersonVO person = (PersonVO) o;
         return id == person.id;
     }
 
