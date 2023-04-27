@@ -12,6 +12,12 @@ spring:
           dialect: org.hibernate.dialect.PostgreSQLDialect
       show-sql: false
 
+  flyway:
+    url: jdbc:postgresql://localhost:5432/demo
+    user: root
+    password: root
+    locations: classpath:db/migration
+
 #spring:
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
