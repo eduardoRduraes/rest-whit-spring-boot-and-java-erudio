@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//@CrossOrigin
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name="People", description = "Endpoints for Managing People")
@@ -22,6 +23,7 @@ public class PersonController {
     @Autowired
     private PersonService service;
 
+    @CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
     @Operation(summary = "Adds a new Person", description = "Adds a new Person by passing in a JSON, XML or YML representation of person", tags = {"People"}, responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -33,6 +35,7 @@ public class PersonController {
         return service.create(person);
     }
 
+    @CrossOrigin(origins = {"http://localhost:8080"})
     @GetMapping(value="/{id}",produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     @Operation(summary = "Finds a People", description = "Finds a People", tags = {"People"}, responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
