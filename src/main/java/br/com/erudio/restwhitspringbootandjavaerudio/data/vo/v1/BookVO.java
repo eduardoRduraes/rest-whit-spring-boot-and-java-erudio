@@ -6,6 +6,7 @@ import com.github.dozermapper.core.Mapping;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,7 +14,8 @@ import java.util.Objects;
 
 @JsonPropertyOrder({"id", "author", "title" ,"price" ,"launchDate" })
 public class BookVO extends RepresentationModel<BookVO> implements Serializable {
-    private static final long serialVersionID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @JsonProperty("id")
     @Mapping("id")

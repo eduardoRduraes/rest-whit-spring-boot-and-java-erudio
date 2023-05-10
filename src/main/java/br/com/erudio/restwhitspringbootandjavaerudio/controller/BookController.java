@@ -1,7 +1,7 @@
 package br.com.erudio.restwhitspringbootandjavaerudio.controller;
 
 import br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v1.BookVO;
-import br.com.erudio.restwhitspringbootandjavaerudio.service.BookService;
+import br.com.erudio.restwhitspringbootandjavaerudio.service.BookServices;
 import br.com.erudio.restwhitspringbootandjavaerudio.util.MediaType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -20,7 +20,11 @@ import java.util.List;
 @Tag(name="Book", description = "Endpoints for Managing Book")
 public class BookController {
     @Autowired
-    private BookService service;
+    private BookServices bookServices;
+
+    public BookController(BookServices bookServices){
+        this.bookServices = bookServices;
+    }
 
     @Operation(summary = "Adds a new Book", description = "Adds a new Book by passing in a JSON, XML or YML representation of book", tags = {"Book"}, responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = BookVO.class))),
@@ -30,7 +34,7 @@ public class BookController {
     })
     @PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public BookVO create(@RequestBody BookVO book) {
-        return service.create(book);
+        return bookServices.create(book);
     }
 
     @GetMapping(value="/{id}",produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
@@ -43,7 +47,7 @@ public class BookController {
             @ApiResponse(description = "Internal Error", responseCode = "500", content = @Content)
     })
     public BookVO findById(@PathVariable(value = "id") long id) {
-        return service.findById(id);
+        return bookServices.findById(id);
     }
 
     @Operation(summary = "Finds all Book", description = "Finds all Book", tags = {"Book"}, responses = {
@@ -55,7 +59,7 @@ public class BookController {
     })
     @GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public List<BookVO> findALl() {
-        return service.findAll();
+        return bookServices.findAll();
     }
 
 
@@ -68,7 +72,7 @@ public class BookController {
     })
     @PutMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML}, produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public BookVO update(@RequestBody BookVO book) {
-        return service.update(book);
+        return bookServices.update(book);
     }
 
     @Operation(summary = "Deletes a Book", description = "Deletes a Book by passing in a JSON, XML or YML representation of book", tags = {"Book"}, responses = {
@@ -79,7 +83,7 @@ public class BookController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") long id) {
-        service.delete(id);
+        bookServices.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

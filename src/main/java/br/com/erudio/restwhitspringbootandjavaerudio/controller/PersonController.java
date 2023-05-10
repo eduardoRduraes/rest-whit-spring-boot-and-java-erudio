@@ -1,7 +1,7 @@
 package br.com.erudio.restwhitspringbootandjavaerudio.controller;
 
 import br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v1.PersonVO;
-import br.com.erudio.restwhitspringbootandjavaerudio.service.PersonService;
+import br.com.erudio.restwhitspringbootandjavaerudio.service.PersonServices;
 import br.com.erudio.restwhitspringbootandjavaerudio.util.MediaType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -21,7 +21,7 @@ import java.util.List;
 @Tag(name="People", description = "Endpoints for Managing People")
 public class PersonController {
     @Autowired
-    private PersonService service;
+    private PersonServices service;
 
     @CrossOrigin(origins = {"http://localhost:8080", "https://erudio.com.br"})
     @Operation(summary = "Adds a new Person", description = "Adds a new Person by passing in a JSON, XML or YML representation of person", tags = {"People"}, responses = {

@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Service
-public class PersonService {
+public class PersonServices {
 
     @Autowired
     private PersonRepository personRepository;
 
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private Logger logger = Logger.getLogger(PersonServices.class.getName());
 
     public PersonVO create(PersonVO person) {
 

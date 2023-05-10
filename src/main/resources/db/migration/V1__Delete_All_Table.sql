@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS  persons;
+DROP TABLE IF EXISTS  books;
+DROP TABLE IF EXISTS  user_permissions;
+DROP TABLE IF EXISTS  permissions;
+DROP TABLE IF EXISTS  users;
+
+
+

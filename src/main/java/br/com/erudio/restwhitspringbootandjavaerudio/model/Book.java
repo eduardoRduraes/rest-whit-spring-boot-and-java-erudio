@@ -4,6 +4,7 @@ import br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v1.BookVO;
 import jakarta.persistence.*;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,6 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "books")
 public class Book implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

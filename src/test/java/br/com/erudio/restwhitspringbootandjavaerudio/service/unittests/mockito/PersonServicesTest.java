@@ -6,7 +6,7 @@ import br.com.erudio.restwhitspringbootandjavaerudio.exception.ResourceNotFoundE
 import br.com.erudio.restwhitspringbootandjavaerudio.mapper.mocks.MockPerson;
 import br.com.erudio.restwhitspringbootandjavaerudio.model.Person;
 import br.com.erudio.restwhitspringbootandjavaerudio.repository.PersonRepository;
-import br.com.erudio.restwhitspringbootandjavaerudio.service.PersonService;
+import br.com.erudio.restwhitspringbootandjavaerudio.service.PersonServices;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -24,12 +24,12 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class PersonServiceTest {
+class PersonServicesTest {
 
     MockPerson input;
 
     @InjectMocks
-    private PersonService personService;
+    private PersonServices personServices;
 
     @Mock
     PersonRepository personRepository;
@@ -51,7 +51,7 @@ class PersonServiceTest {
 
         when(personRepository.save(entity)).thenReturn(persisted);
 
-        var result = personService.create(vo);
+        var result = personServices.create(vo);
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -66,7 +66,7 @@ class PersonServiceTest {
     @Test
     void createWithNullPerson() {
         Exception exception = assertThrows(RequireObjectIsNullException.class, () -> {
-            personService.create(null);
+            personServices.create(null);
         });
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
@@ -80,7 +80,7 @@ class PersonServiceTest {
 
         when(personRepository.findById(1L)).thenReturn(Optional.of(entity));
 
-        var result = personService.findById(1L);
+        var result = personServices.findById(1L);
 
         assertNotNull(result);
         assertNotNull(result.getKey());
@@ -100,7 +100,7 @@ class PersonServiceTest {
 
         when(personRepository.findAll()).thenReturn(entityList);
 
-        var people = personService.findAll();
+        var people = personServices.findAll();
 
         assertNotNull(people);
         assertEquals(14, people.size());
@@ -161,7 +161,7 @@ class PersonServiceTest {
 
         when(personRepository.save(entity)).thenReturn(persisted);
 
-        var result = personService.update(vo);
+        var result = personServices.update(vo);
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -177,7 +177,7 @@ class PersonServiceTest {
     @Test
     void updateWithNullPerson() {
         Exception exception = assertThrows(RequireObjectIsNullException.class, () -> {
-            personService.update(null);
+            personServices.update(null);
         });
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
@@ -191,7 +191,7 @@ class PersonServiceTest {
 
         when(personRepository.findById(1L)).thenReturn(Optional.of(entity));
 
-        personService.delete(1L);
+        personServices.delete(1L);
     }
 
 }

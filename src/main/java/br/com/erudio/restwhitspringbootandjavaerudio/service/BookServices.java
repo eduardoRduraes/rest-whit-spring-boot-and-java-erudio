@@ -1,16 +1,12 @@
 package br.com.erudio.restwhitspringbootandjavaerudio.service;
 
 import br.com.erudio.restwhitspringbootandjavaerudio.controller.BookController;
-import br.com.erudio.restwhitspringbootandjavaerudio.controller.PersonController;
 import br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v1.BookVO;
-import br.com.erudio.restwhitspringbootandjavaerudio.data.vo.v1.PersonVO;
 import br.com.erudio.restwhitspringbootandjavaerudio.exception.RequireObjectIsNullException;
 import br.com.erudio.restwhitspringbootandjavaerudio.exception.ResourceNotFoundException;
 import br.com.erudio.restwhitspringbootandjavaerudio.mapper.DozerMapper;
 import br.com.erudio.restwhitspringbootandjavaerudio.model.Book;
-import br.com.erudio.restwhitspringbootandjavaerudio.model.Person;
 import br.com.erudio.restwhitspringbootandjavaerudio.repository.BookRepository;
-import br.com.erudio.restwhitspringbootandjavaerudio.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +18,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
-public class BookService {
+public class BookServices {
 
     @Autowired
     private BookRepository bookRepository;
 
-    private Logger logger = Logger.getLogger(BookService.class.getName());
+    private Logger logger = Logger.getLogger(BookServices.class.getName());
 
     public BookVO create(BookVO book) {
 

@@ -5,7 +5,7 @@ import br.com.erudio.restwhitspringbootandjavaerudio.exception.RequireObjectIsNu
 import br.com.erudio.restwhitspringbootandjavaerudio.exception.ResourceNotFoundException;
 import br.com.erudio.restwhitspringbootandjavaerudio.model.Book;
 import br.com.erudio.restwhitspringbootandjavaerudio.repository.BookRepository;
-import br.com.erudio.restwhitspringbootandjavaerudio.service.BookService;
+import br.com.erudio.restwhitspringbootandjavaerudio.service.BookServices;
 import br.com.erudio.restwhitspringbootandjavaerudio.service.unittests.mapper.mocks.MockBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,12 +26,12 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class BookServiceTest {
+class BookServicesTest {
 
     MockBook input;
 
     @InjectMocks
-    private BookService bookService;
+    private BookServices bookServices;
 
     @Mock
     BookRepository bookRepository;
@@ -53,7 +53,7 @@ class BookServiceTest {
 
         when(bookRepository.save(entity)).thenReturn(persisted);
 
-        var result = bookService.create(vo);
+        var result = bookServices.create(vo);
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -68,7 +68,7 @@ class BookServiceTest {
     @Test
     void createWithNullPerson() {
         Exception exception = assertThrows(RequireObjectIsNullException.class, () -> {
-            bookService.create(null);
+            bookServices.create(null);
         });
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
@@ -82,7 +82,7 @@ class BookServiceTest {
 
         when(bookRepository.findById(1L)).thenReturn(Optional.of(entity));
 
-        var result = bookService.findById(1L);
+        var result = bookServices.findById(1L);
 
         assertNotNull(result);
         assertNotNull(result.getKey());
@@ -102,7 +102,7 @@ class BookServiceTest {
 
         when(bookRepository.findAll()).thenReturn(entityList);
 
-        var people = bookService.findAll();
+        var people = bookServices.findAll();
 
         assertNotNull(people);
         assertEquals(14, people.size());
@@ -163,7 +163,7 @@ class BookServiceTest {
 
         when(bookRepository.save(entity)).thenReturn(persisted);
 
-        var result = bookService.update(vo);
+        var result = bookServices.update(vo);
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
@@ -179,7 +179,7 @@ class BookServiceTest {
     @Test
     void updateWithNullBook() {
         Exception exception = assertThrows(RequireObjectIsNullException.class, () -> {
-            bookService.update(null);
+            bookServices.update(null);
         });
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
@@ -193,7 +193,7 @@ class BookServiceTest {
 
         when(bookRepository.findById(1L)).thenReturn(Optional.of(entity));
 
-        bookService.delete(1L);
+        bookServices.delete(1L);
     }
 
 }
