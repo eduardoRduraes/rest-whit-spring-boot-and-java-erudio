@@ -1,11 +1,14 @@
 package br.com.erudio.restwhitspringbootandjavaerudio.exception.handler;
 
 
-import br.com.erudio.restwhitspringbootandjavaerudio.exception.*;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import br.com.erudio.restwhitspringbootandjavaerudio.exception.ExceptionResponse;
+import br.com.erudio.restwhitspringbootandjavaerudio.exception.InvalidJwtAuthenticationException;
+import br.com.erudio.restwhitspringbootandjavaerudio.exception.RequireObjectIsNullException;
+import br.com.erudio.restwhitspringbootandjavaerudio.exception.ResourceNotFoundException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.Date;
 
+@Component
 @RestController
 @ControllerAdvice
 class CustomizeResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -22,6 +26,12 @@ class CustomizeResponseEntityExceptionHandler extends ResponseEntityExceptionHan
     public final ResponseEntity<ExceptionResponse> handleAllException(Exception ex, WebRequest wr) {
         ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), wr.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public final ResponseEntity<ExceptionResponse> handleTokenExpiredException(Exception ex, WebRequest wr){
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),wr.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)

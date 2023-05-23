@@ -1,8 +1,9 @@
 package br.com.erudio.restwhitspringbootandjavaerudio.config;
 
+import br.com.erudio.restwhitspringbootandjavaerudio.exception.handler.DelegateAuthorizationEntryPoint;
+import br.com.erudio.restwhitspringbootandjavaerudio.exception.handler.FilterChainExceptionHandler;
 import br.com.erudio.restwhitspringbootandjavaerudio.security.jwt.JwtConfigurer;
 import br.com.erudio.restwhitspringbootandjavaerudio.security.jwt.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +26,15 @@ import java.util.Map;
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    final JwtTokenProvider jwtTokenProvider;
+    final DelegateAuthorizationEntryPoint delegateAuthorizationEntryPoint;
+    final FilterChainExceptionHandler filterChainExceptionHandler;
+
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, DelegateAuthorizationEntryPoint delegateAuthorizationEntryPoint,FilterChainExceptionHandler filterChainExceptionHandler) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.delegateAuthorizationEntryPoint =delegateAuthorizationEntryPoint;
+        this.filterChainExceptionHandler = filterChainExceptionHandler;
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -64,6 +73,10 @@ public class SecurityConfig {
                                 .requestMatchers("/users").denyAll()
                 )
                 .cors()
+                .and()
+                .addFilterBefore(filterChainExceptionHandler, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(delegateAuthorizationEntryPoint)
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider))
                 .and()
